@@ -1,8 +1,27 @@
 import pandas as pd
 import numpy as np
+import os
 
 
-def generate_ab_data(n_a=1000, n_b=1000, rate_a=0.12, rate_b=0.15, seed=42):
+def generate_ab_data(
+    n_a: int = 1000,
+    n_b: int = 1000,
+    rate_a: float = 0.12,
+    rate_b: float = 0.15,
+    seed: int = 42,
+) -> pd.DataFrame:
+    """
+    This functions generates a synthetic dataset for A/B testing.
+
+    Args:
+      - n_a, n_b (float): Number of samples for groups A and B, respectively;
+      - rate_a, rate_b (float): Conversion rates for groups A and B, respectively;
+      - seed (int): Seed for reproducibility.
+
+    Returns:
+      - pd.DataFrame: DataFrame with columns ["group", "converted"] in which
+        0 indicates no conversion and 1 indicates conversion
+    """
     np.random.seed(seed)
 
     data_a = np.random.binomial(1, rate_a, n_a)
@@ -14,6 +33,8 @@ def generate_ab_data(n_a=1000, n_b=1000, rate_a=0.12, rate_b=0.15, seed=42):
     return pd.concat([df_a, df_b]).reset_index(drop=True)
 
 
-# Gerando e salvando
-df = generate_ab_data()
-df.to_csv("data/ab_test_data.csv", index=False)
+# Generating and saving synthetic dataset
+if __name__ == "__main__":
+    df = generate_ab_data()
+    os.makedirs("data", exist_ok=True)
+    df.to_csv("data/ab_test_data.csv", index=False)
