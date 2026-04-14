@@ -11,5 +11,5 @@ uv sync
 ```
 
 ## 3. Dataset Generation
-A synthetic dataset will be used throughout the project. The code to generate it is in the file `generate_dataset.py`. The dataset will be stored in the file `data/ab_test_data.csv`. You should run the aforementioned script first before running any other script in the project.
+A synthetic dataset will be used throughout the project. The code to generate it is in the file `src/generate_dataset.py`. The dataset will be stored in the file `data/ab_test_data.csv`. You should run the aforementioned script first before running any other script in the project.
 
