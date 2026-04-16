@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import os
+from pathlib import Path
 
 
 def generate_ab_data(
@@ -14,7 +14,7 @@ def generate_ab_data(
     This functions generates a synthetic dataset for A/B testing.
 
     Args:
-      - n_a, n_b (float): Number of samples for groups A and B, respectively;
+      - n_a, n_b (int): Number of samples for groups A and B, respectively;
       - rate_a, rate_b (float): Conversion rates for groups A and B, respectively;
       - seed (int): Seed for reproducibility.
 
@@ -35,6 +35,16 @@ def generate_ab_data(
 
 # Generating and saving synthetic dataset
 if __name__ == "__main__":
+    # Define paths relative to this script
+    script_path = Path(__file__).resolve()
+    project_root = script_path.parent.parent
+    data_dir = project_root / "data"
+    output_path = data_dir / "ab_test_data.csv"
+
+    # Generate data
     df = generate_ab_data()
-    os.makedirs("data", exist_ok=True)
-    df.to_csv("data/ab_test_data.csv", index=False)
+
+    # Ensure directory exists and save
+    data_dir.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_path, index=False)
+    print(f"Dataset successfully saved to: {output_path}")
