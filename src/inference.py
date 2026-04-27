@@ -8,7 +8,7 @@ from scipy.stats import beta
 
 def calculate_posterior(
     alpha: float, beta: float, num_conversions: int, num_observations: int
-) -> list[float, float]:
+) -> tuple[float, float]:
     """
     Calculates the posterior distribution given:
     Args:
@@ -18,11 +18,11 @@ def calculate_posterior(
     - num_observations: number of observations for the variant
 
     Returns:
-    list[float, float]: posterior alpha and beta parameter values
+    tuple[float, float]: posterior alpha and beta parameter values
     """
     posterior_alpha = alpha + num_conversions
     posterior_beta = beta + num_observations - num_conversions
-    return [posterior_alpha, posterior_beta]
+    return posterior_alpha, posterior_beta
 
 
 def generate_posterior_dataframe(
@@ -67,7 +67,7 @@ def monte_carlo_simulation(
     posterior_alpha_b: float,
     posterior_beta_b: float,
     num_samples: int = 10000,
-) -> list[np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray]:
     """
     Performs a Monte Carlo simulation to generate 'num_samples' random values
     from the posterior distribution for both variants.
@@ -86,7 +86,7 @@ def monte_carlo_simulation(
     samples_a = beta.rvs(a=posterior_alpha_a, b=posterior_beta_a, size=num_samples)
     samples_b = beta.rvs(a=posterior_alpha_b, b=posterior_beta_b, size=num_samples)
 
-    return [samples_a, samples_b]
+    return samples_a, samples_b
 
 
 def calculate_probability_better(samples_a: np.ndarray, samples_b: np.ndarray) -> float:
