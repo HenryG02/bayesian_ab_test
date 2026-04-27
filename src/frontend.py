@@ -35,27 +35,25 @@ def generate_data_cached(
 
 
 # Generating data
-st.session_state.df = generate_data_cached(
-    true_prob_rate_a, true_prob_rate_b, sample_size
-)
+generated_df = generate_data_cached(true_prob_rate_a, true_prob_rate_b, sample_size)
 
 # Analysis of generated data
 st.header("Generated data analysis")
-st.subheader("DataFrame with counts of conversions by variant")
+st.subheader("Table with counts of conversions by variant")
 st.dataframe(
-    pd.crosstab(st.session_state.df["group"], st.session_state.df["converted"]).rename(
+    pd.crosstab(generated_df["group"], generated_df["converted"]).rename(
         columns={0: "not converted", 1: "converted"}
     )
 )
 
 fig = px.histogram(
-    st.session_state.df,
+    generated_df,
     x="group",
-    color=st.session_state.df["converted"].astype(str),
+    color=generated_df["converted"].astype(str),
     barmode="group",
     text_auto=True,
     labels={"color": "Converted"},
-    title="Count of Conversions by Variant"
+    title="Count of Conversions by Variant",
 )
 st.plotly_chart(fig)
 
@@ -65,18 +63,14 @@ st.header("Making inferences")
 posterior_alpha_a, posterior_beta_a = calculate_posterior(
     alpha=1,
     beta=1,
-    num_conversions=st.session_state.df[st.session_state.df["group"] == "A"][
-        "converted"
-    ].sum(),
-    num_observations=st.session_state.df[st.session_state.df["group"] == "A"].shape[0],
+    num_conversions=generated_df[generated_df["group"] == "A"]["converted"].sum(),
+    num_observations=generated_df[generated_df["group"] == "A"].shape[0],
 )
 posterior_alpha_b, posterior_beta_b = calculate_posterior(
     alpha=1,
     beta=1,
-    num_conversions=st.session_state.df[st.session_state.df["group"] == "B"][
-        "converted"
-    ].sum(),
-    num_observations=st.session_state.df[st.session_state.df["group"] == "B"].shape[0],
+    num_conversions=generated_df[generated_df["group"] == "B"]["converted"].sum(),
+    num_observations=generated_df[generated_df["group"] == "B"].shape[0],
 )
 
 
