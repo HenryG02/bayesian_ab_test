@@ -123,7 +123,7 @@ def monte_carlo_simulation_cached(
 
 
 posterior_samples_a, posterior_samples_b = monte_carlo_simulation_cached(
-    posterior_alpha_a, posterior_beta_a, posterior_alpha_b, posterior_beta_b, 1000
+    posterior_alpha_a, posterior_beta_a, posterior_alpha_b, posterior_beta_b, 50000
 )
 
 # Displaying metrics
