@@ -22,10 +22,10 @@ def generate_ab_data(
       - pd.DataFrame: DataFrame with columns ["group", "converted"] in which
         0 indicates no conversion and 1 indicates conversion
     """
-    np.random.seed(seed)
+    rng = np.random.default_rng(seed)
 
-    data_a = np.random.binomial(1, rate_a, n_a)
-    data_b = np.random.binomial(1, rate_b, n_b)
+    data_a = rng.binomial(1, rate_a, n_a)
+    data_b = rng.binomial(1, rate_b, n_b)
 
     df_a = pd.DataFrame({"group": "A", "converted": data_a})
     df_b = pd.DataFrame({"group": "B", "converted": data_b})
